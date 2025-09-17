@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+    <title>Wedding Invitation - Ahmad Rizky & Sari Dewi</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Source+Sans+Pro:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💒</text></svg>">
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div id="loading" class="loading-screen">
+        <div class="loading-content">
+            <div class="heart-loader">💕</div>
+            <p>Memuat undangan...</p>
+        </div>
+    </div>
+
+    <!-- Falling Hearts Container -->
+    <div id="fallingHearts" class="falling-hearts-container hidden"></div>
+
+    <!-- Background Music -->
+    <audio id="backgroundMusic" loop>
+        <source src="wedding.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Music Control -->
+    <div id="musicControl" class="music-control hidden">
+        <button id="musicToggle" class="music-btn">
+            <span id="musicIcon">🎵</span>
+        </button>
+    </div>
+
+    <!-- Landing Page -->
+    <div id="landingPage" class="landing-page">
+        <div class="landing-content">
+            <div class="couple-photo-container">
+                <img id="couplePhoto" src="" alt="Couple" class="couple-photo">
+            </div>
+            
+            <div class="landing-text">
+                <h1 id="coupleNames" class="couple-names"></h1>
+                
+                <div id="guestCard" class="guest-card hidden">
+                    <p class="guest-label">Kepada Yth.</p>
+                    <p id="guestName" class="guest-name"></p>
+                </div>
+                
+                <p id="openingText" class="opening-text"></p>
+            </div>
+
+            <button id="openInvitationBtn" class="open-invitation-btn">
+                Buka Undangan
+                <span class="btn-icon">⬇</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Main Invitation Content -->
+    <div id="mainContent" class="main-content hidden">
+        <!-- Hero Section -->
+        <section class="hero-section">
+            <div class="hero-content">
+                <h1 id="heroNames" class="hero-names"></h1>
+                <p class="hero-subtitle">Menikah InsyaAllah</p>
+                <div id="heroDate" class="hero-date"></div>
+            </div>
+        </section>
+
+        <!-- Couple Details -->
+        <section class="couple-section">
+            <div class="container">
+                <h2 class="section-title">Mempelai</h2>
+                
+                <div class="couple-cards">
+                    <!-- Groom Card -->
+                    <div class="couple-card groom-card">
+                        <img id="groomPhoto" src="" alt="Groom" class="couple-card-photo">
+                        <div class="couple-card-content">
+                            <h3 id="groomFullName" class="couple-card-name"></h3>
+                            <p id="groomParents" class="couple-card-parents"></p>
+                        </div>
+                    </div>
+
+                    <!-- Bride Card -->
+                    <div class="couple-card bride-card">
+                        <img id="bridePhoto" src="" alt="Bride" class="couple-card-photo">
+                        <div class="couple-card-content">
+                            <h3 id="brideFullName" class="couple-card-name"></h3>
+                            <p id="brideParents" class="couple-card-parents"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Countdown Timer -->
+        <section id="countdownSection" class="countdown-section">
+            <div class="container">
+                <h2 class="section-title">Menuju Hari Bahagia</h2>
+                <div class="countdown-grid">
+                    <div class="countdown-item">
+                        <div id="countDays" class="countdown-number">00</div>
+                        <div class="countdown-label">Hari</div>
+                    </div>
+                    <div class="countdown-item">
+                        <div id="countHours" class="countdown-number">00</div>
+                        <div class="countdown-label">Jam</div>
+                    </div>
+                    <div class="countdown-item">
+                        <div id="countMinutes" class="countdown-number">00</div>
+                        <div class="countdown-label">Menit</div>
+                    </div>
+                    <div class="countdown-item">
+                        <div id="countSeconds" class="countdown-number">00</div>
+                        <div class="countdown-label">Detik</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Event Details -->
+        <section class="event-section">
+            <div class="container">
+                <h2 class="section-title">Detail Acara</h2>
+                
+                <div class="event-cards">
+                    <!-- Akad Nikah -->
+                    <div class="event-card akad-card">
+                        <h3 class="event-title">Akad Nikah</h3>
+                        <div class="event-details">
+                            <div class="event-detail">
+                                <span class="event-icon">📅</span>
+                                <span id="akadDate" class="event-text"></span>
+                            </div>
+                            <div class="event-detail">
+                                <span class="event-icon">🕐</span>
+                                <span id="akadTime" class="event-text"></span>
+                            </div>
+                            <div class="event-detail">
+                                <span class="event-icon">📍</span>
+                                <div class="event-location">
+                                    <div id="akadLocation" class="event-location-name"></div>
+                                    <div id="akadAddress" class="event-location-address"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Reception -->
+                    <div class="event-card reception-card">
+                        <h3 class="event-title">Resepsi</h3>
+                        <div class="event-details">
+                            <div class="event-detail">
+                                <span class="event-icon">📅</span>
+                                <span id="receptionDate" class="event-text"></span>
+                            </div>
+                            <div class="event-detail">
+                                <span class="event-icon">🕐</span>
+                                <span id="receptionTime" class="event-text"></span>
+                            </div>
+                            <div class="event-detail">
+                                <span class="event-icon">📍</span>
+                                <div class="event-location">
+                                    <div id="receptionLocation" class="event-location-name"></div>
+                                    <div id="receptionAddress" class="event-location-address"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Maps Button -->
+                <div class="maps-button-container">
+                    <button id="mapsButton" class="maps-button">
+                        <span class="maps-icon">🗺️</span>
+                        Lihat Lokasi di Maps
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Photo Gallery -->
+        <section id="gallerySection" class="gallery-section">
+            <div class="container">
+                <h2 class="section-title">Galeri Foto</h2>
+                <div id="photoGallery" class="photo-gallery"></div>
+            </div>
+        </section>
+
+        <!-- Islamic Quote -->
+        <section class="quote-section">
+            <div class="container">
+                <div class="quote-content">
+                    <p id="hadithText" class="quote-text"></p>
+                    <p id="hadithSource" class="quote-source"></p>
+                </div>
+            </div>
+        </section>
+        <!-- Footer -->
+<!-- Footer -->
+<footer class="footer">
+    <div class="container">
+        <p class="footer-text">
+            Terima kasih atas doa dan restu yang diberikan
+        </p>
+        <p id="footerNames" class="footer-names"></p>
+        <div class="tiktok-footer">
+           powered by <a href="https://www.tiktok.com/@alfisyuhadak" target="_blank" rel="noopener noreferrer" class="tiktok-link">
+                <i class="bx bxl-tiktok"></i>
+                <span class="tiktok-username">@alfisyuhadak</span>
+            </a>
+        </div>
+    </div>
+</footer>
+                
+    </div>
+
+    <script src="data.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
