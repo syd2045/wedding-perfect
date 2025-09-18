@@ -1,669 +1,200 @@
-/* Reset and Base Styles */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+/* css/style.css */
+
+/* Variabel CSS akan diisi oleh JavaScript dari data.js */
+:root {
+    --theme-color: #8B4513; /* Coklat Sadel (default) */
+    --font-title: 'Great Vibes', cursive;
+    --font-content: 'Poppins', sans-serif;
 }
 
-html {
-    scroll-behavior: smooth;
+html, body {
+    height: 100%;
+    margin: 0;
+    font-family: var(--font-content);
 }
 
 body {
-    font-family: 'Source Sans Pro', sans-serif;
-    line-height: 1.6;
-    color: #333;
+    background-image: url('images/cover.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed; /* supaya background tetap diam saat discroll */
     overflow-x: hidden;
+    background-color: #fdfdfd;
+    padding-bottom: 80px; /* biar footer tidak ketutup navigasi bawah */
 }
 
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
-}
-
-/* Utility Classes */
-.hidden {
-    display: none !important;
-}
-
-/* Loading Screen */
-.loading-screen {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 9999;
-}
-
-.loading-content {
-    text-align: center;
-}
-
-.heart-loader {
-    font-size: 3rem;
-    animation: heartbeat 1.5s ease-in-out infinite;
-}
-
-@keyframes heartbeat {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.2); }
-}
-
-/* Falling Hearts */
-.falling-hearts-container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    z-index: 10;
-    overflow: hidden;
-}
-
-.falling-heart {
-    position: absolute;
-    font-size: 1.5rem;
-    color: #ff6b9d;
-    animation: fall linear infinite;
-    opacity: 0.8;
-}
-
-@keyframes fall {
-    0% {
-        transform: translateY(-100vh) rotate(0deg);
-        opacity: 1;
-    }
-    100% {
-        transform: translateY(100vh) rotate(360deg);
-        opacity: 0;
-    }
-}
-
-/* Music Control */
-.music-control {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    z-index: 20;
-}
-
-.music-btn {
-    background: rgba(255, 255, 255, 0.9);
-    border: 2px solid #059669;
-    border-radius: 50%;
-    width: 50px;
-    height: 50px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.2rem;
-    transition: all 0.3s ease;
-    backdrop-filter: blur(10px);
-}
-
-.music-btn:hover {
-    background: #059669;
-    color: white;
-    transform: scale(1.1);
+/* Helper Class */
+.font-title {
+    font-family: var(--font-title);
 }
 
 /* Landing Page */
-.landing-page {
-    min-height: 100vh;
-    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-}
-
-.landing-content {
-    text-align: center;
-    max-width: 500px;
-    animation: fadeInUp 1s ease-out;
-}
-
-.couple-photo-container {
-    margin-bottom: 2rem;
-}
-
-.couple-photo {
-    width: 250px;
-    height: 250px;
-    object-fit: cover;
-    border-radius: 50%;
-    border: 6px solid white;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-}
-
-.couple-names {
-    font-family: 'Playfair Display', serif;
-    font-size: 3rem;
-    font-weight: 700;
-    color: #1f2937;
-    margin-bottom: 1.5rem;
-    line-height: 1.2;
-}
-
-.guest-card {
-    background: white;
-    padding: 1.5rem;
-    border-radius: 15px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-    margin-bottom: 2rem;
-    border: 2px solid #f3f4f6;
-}
-
-.guest-label {
-    color: #6b7280;
-    margin-bottom: 0.5rem;
-    font-size: 0.9rem;
-}
-
-.guest-name {
-    font-size: 1.3rem;
-    font-weight: 600;
-    color: #1f2937;
-}
-
-.opening-text {
-    color: #4b5563;
-    line-height: 1.7;
-    margin-bottom: 2.5rem;
-    font-size: 1.1rem;
-}
-
-.open-invitation-btn {
-    background: linear-gradient(135deg, #059669 0%, #047857 100%);
-    border: none;
-    padding: 1rem 2.5rem;
-    border-radius: 50px;
+#landing {
+    height: 100vh;
+    background-image: url('images/cover.jpg');
+    background-size: cover;
+    background-position: center;
     color: white;
+    position: relative;
+    transition: opacity 1.5s ease-out, transform 1.5s ease-out;
+}
+#landing::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 0;
+}
+#landing .container {
+    position: relative;
+    z-index: 1;
+}
+
+.btn-primary {
+    background-color: var(--theme-color);
+    border-color: var(--theme-color);
+    padding: 10px 25px;
     font-size: 1.1rem;
-    font-weight: 600;
-    cursor: pointer;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    transition: all 0.3s ease;
-    box-shadow: 0 10px 25px rgba(5, 150, 105, 0.3);
-}
-
-.open-invitation-btn:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 15px 35px rgba(5, 150, 105, 0.4);
-}
-
-.btn-icon {
-    animation: bounce 2s infinite;
-}
-
-@keyframes bounce {
-    0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
-    40% { transform: translateY(-5px); }
-    60% { transform: translateY(-3px); }
-}
-
-/* Main Content */
-.main-content {
-    animation: slideInUp 0.8s ease-out;
-}
-
-/* Hero Section */
-.hero-section {
-    min-height: 100vh;
-    background: linear-gradient(135deg, #ecfdf5 0%, #f0fdf4 100%);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: 2rem;
-}
-
-.hero-names {
-    font-family: 'Playfair Display', serif;
-    font-size: 4.5rem;
-    font-weight: 700;
-    color: #065f46;
-    margin-bottom: 1rem;
-    line-height: 1.1;
-    animation: fadeInUp 1s ease-out 0.3s both;
-}
-
-.hero-subtitle {
-    font-size: 1.3rem;
-    color: #6b7280;
-    margin-bottom: 2rem;
-    animation: fadeInUp 1s ease-out 0.6s both;
-}
-
-.hero-date {
-    font-size: 1.8rem;
-    font-weight: 600;
-    color: #047857;
-    animation: fadeInUp 1s ease-out 0.9s both;
-}
-
-/* Section Styles */
-.section-title {
-    font-family: 'Playfair Display', serif;
-    font-size: 2.5rem;
-    font-weight: 700;
-    text-align: center;
-    margin-bottom: 3rem;
-    color: #1f2937;
-}
-
-/* Couple Section */
-.couple-section {
-    padding: 5rem 0;
-    background: white;
-}
-
-.couple-cards {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-    gap: 3rem;
-    margin-top: 2rem;
-}
-
-.couple-card {
-    background: white;
-    padding: 2.5rem;
-    border-radius: 20px;
-    text-align: center;
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease;
-    border: 3px solid transparent;
-}
-
-.couple-card:hover {
-    transform: translateY(-5px);
-}
-
-.groom-card {
-    border-color: #d1fae5;
-}
-
-.bride-card {
-    border-color: #fce7f3;
-}
-
-.couple-card-photo {
-    width: 200px;
-    height: 200px;
-    object-fit: cover;
-    border-radius: 50%;
-    margin-bottom: 1.5rem;
-    border: 4px solid #f3f4f6;
-}
-
-.groom-card .couple-card-photo {
-    border-color: #a7f3d0;
-}
-
-.bride-card .couple-card-photo {
-    border-color: #fbcfe8;
-}
-
-.couple-card-name {
-    font-size: 1.8rem;
-    font-weight: 700;
-    color: #1f2937;
-    margin-bottom: 1rem;
-}
-
-.couple-card-parents {
-    color: #6b7280;
-    line-height: 1.6;
-}
-
-/* Countdown Section */
-.countdown-section {
-    padding: 5rem 0;
-    background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
-}
-
-.countdown-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-    gap: 1.5rem;
-    max-width: 600px;
-    margin: 0 auto;
-}
-
-.countdown-item {
-    background: white;
-    padding: 2rem 1rem;
-    border-radius: 15px;
-    text-align: center;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-    border: 2px solid #a7f3d0;
-}
-
-.countdown-number {
-    font-size: 2.5rem;
-    font-weight: 700;
-    color: #047857;
-    margin-bottom: 0.5rem;
-}
-
-.countdown-label {
-    color: #6b7280;
-    font-weight: 500;
-}
-
-/* Event Section */
-.event-section {
-    padding: 5rem 0;
-    background: white;
-}
-
-.event-cards {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-    gap: 2.5rem;
-}
-
-.event-card {
-    background: white;
-    padding: 2.5rem;
-    border-radius: 20px;
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
-    border: 3px solid transparent;
-}
-
-.akad-card {
-    border-color: #a7f3d0;
-}
-
-.reception-card {
-    border-color: #fbcfe8;
-}
-
-.event-title {
-    font-size: 1.8rem;
-    font-weight: 700;
-    text-align: center;
-    margin-bottom: 2rem;
-    color: #1f2937;
-}
-
-.akad-card .event-title {
-    color: #047857;
-}
-
-.reception-card .event-title {
-    color: #be185d;
-}
-
-.event-details {
-    space-y: 1.5rem;
-}
-
-.event-detail {
-    display: flex;
-    align-items: flex-start;
-    gap: 1rem;
-    margin-bottom: 1.5rem;
-}
-
-.event-icon {
-    font-size: 1.2rem;
-    margin-top: 0.2rem;
-}
-
-.event-text {
-    font-size: 1rem;
-    color: #374151;
-}
-
-.event-location-name {
-    font-weight: 600;
-    color: #1f2937;
-    margin-bottom: 0.3rem;
-}
-
-.event-location-address {
-    font-size: 0.9rem;
-    color: #6b7280;
-}
-
-.maps-button-container {
-    text-align: center;
-    margin-top: 3rem;
-}
-
-.maps-button {
-    background: linear-gradient(135deg, #047857 0%, #065f46 100%);
-    border: none;
-    padding: 1rem 2rem;
     border-radius: 50px;
-    color: white;
-    font-weight: 600;
-    cursor: pointer;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
     transition: all 0.3s ease;
-    box-shadow: 0 10px 25px rgba(4, 120, 87, 0.3);
 }
-
-.maps-button:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 15px 35px rgba(4, 120, 87, 0.4);
-}
-
-/* Gallery Section */
-.gallery-section {
-    padding: 5rem 0;
-    background: #f9fafb;
-}
-
-.photo-gallery {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 1.5rem;
-}
-
-.gallery-item {
-    aspect-ratio: 1;
-    overflow: hidden;
-    border-radius: 15px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-    cursor: pointer;
-    transition: transform 0.3s ease;
-}
-
-.gallery-item:hover {
+.btn-primary:hover {
+    background-color: #fff;
+    color: var(--theme-color);
+    border-color: var(--theme-color);
     transform: scale(1.05);
 }
 
-.gallery-item img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.3s ease;
+/* Main Content Animation */
+.reveal {
+    position: relative;
+    opacity: 0;
+    transform: translateY(50px) scale(0.95);
+    transition: opacity 1.2s ease-out, transform 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.reveal.active {
+    opacity: 1;
+    transform: translateY(0) scale(1);
 }
 
-.gallery-item:hover img {
-    transform: scale(1.1);
-}
-
-/* Quote Section */
-.quote-section {
-    padding: 5rem 0;
-    background: linear-gradient(135deg, #047857 0%, #065f46 100%);
+/* Countdown Timer */
+#countdown .timer-box {
+    background-color: var(--theme-color);
     color: white;
-    text-align: center;
+    border-radius: 10px;
+    padding: 15px;
+    min-width: 90px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
 }
-
-.quote-content {
-    max-width: 800px;
-    margin: 0 auto;
-}
-
-.quote-text {
-    font-size: 1.3rem;
-    line-height: 1.8;
-    font-style: italic;
-    margin-bottom: 1.5rem;
-    color: #f0fdfa;
-}
-
-.quote-source {
+#countdown .timer-value {
+    font-size: 2.5rem;
     font-weight: 600;
-    color: #a7f3d0;
-    font-size: 1.1rem;
+}
+#countdown .timer-label {
+    font-size: 0.9rem;
+}
+
+/* Gallery */
+#gallery-container img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+#gallery-container img:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+}
+
+/* Love Falling Effect */
+.love-heart {
+    position: fixed;
+    font-size: 1.5rem;
+    color: var(--theme-color);
+    animation: fall 10s linear infinite;
+    z-index: 9999;
+    opacity: 0.8;
+}
+@keyframes fall {
+    0% { transform: translateY(-10vh) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
 }
 
 /* Footer */
-.footer {
-    padding: 3rem 0;
-    background: #1f2937;
-    color: white;
-    text-align: center;
+footer {
+    background-color: #f8f9fa;
+    font-size: 0.9rem;
+    display: none;
 }
 
-.footer-text {
-    margin-bottom: 1rem;
-    color: #d1d5db;
 }
+body.show-main footer {
+    display: block;
+    }
 
-.footer-names {
-    font-weight: 600;
-    color: #f9fafb;
+/* Bottom Navigation */
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #ffffff;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-around;
+    padding: 8px 0;
+    z-index: 1000;
+    transform: translateY(100%); /* Sembunyi di awal */
+    transition: transform 0.5s ease-in-out;
 }
-
-/* Animations */
-@keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(50px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+.bottom-nav.show {
+    transform: translateY(0); /* Munculkan setelah undangan dibuka */
 }
-
-@keyframes slideInUp {
-    from {
-        opacity: 0;
-        transform: translateY(100px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-    .couple-names {
-        font-size: 2.2rem;
-    }
-    
-    .hero-names {
-        font-size: 2.8rem;
-    }
-    
-    .section-title {
-        font-size: 2rem;
-    }
-    
-    .couple-cards {
-        grid-template-columns: 1fr;
-        gap: 2rem;
-    }
-    
-    .event-cards {
-        grid-template-columns: 1fr;
-        gap: 2rem;
-    }
-    
-    .countdown-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-    
-    .photo-gallery {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 1rem;
-    }
-    
-    .container {
-        padding: 0 15px;
-    }
-    
-    .couple-card, .event-card {
-        padding: 1.5rem;
-    }
-    
-    .quote-text {
-        font-size: 1.1rem;
-    }
-}
-
-@media (max-width: 480px) {
-    .couple-photo {
-        width: 200px;
-        height: 200px;
-    }
-    
-    .couple-names {
-        font-size: 1.8rem;
-    }
-    
-    .hero-names {
-        font-size: 2.2rem;
-    }
-    
-    .countdown-number {
-        font-size: 2rem;
-    }
-    
-    .photo-gallery {
-        grid-template-columns: 1fr;
-    }
-}
-
-
-.tiktok-footer {
-    margin-top: 20px;
-    text-align: center;
-}
-
-.tiktok-link {
-    display: inline-flex;
+.nav-item {
+    display: flex;
+    flex-direction: column;
     align-items: center;
     text-decoration: none;
-    color: inherit;
+    color: #888;
+    font-size: 0.75rem;
+    flex-grow: 1;
+    padding: 5px 0;
+    transition: color 0.3s ease;
+}
+.nav-item i {
+    font-size: 1.4rem;
+    margin-bottom: 4px;
+}
+.nav-item.active {
+    color: var(--theme-color);
+}
+.nav-item:hover {
+    color: var(--theme-color);
 }
 
-.tiktok-link .bx.bxl-tiktok {
-    font-size: 16px; /* Ukuran ikon */
-    margin-right: 4px; /* Jarak antara ikon dan teks */
-    transition: transform 0.3s ease;
+#quote {
+    background: rgba(255, 255, 255, 0.7); /* putih transparan */
+    backdrop-filter: blur(4px); /* bikin efek glassmorphism */
+    -webkit-backdrop-filter: blur(4px); /* safari support */
+    border-radius: 15px; /* opsional, biar lebih halus */
+    margin: 20px auto;
+    max-width: 900px; /* supaya tidak terlalu melebar */
+    padding: 40px 20px;
 }
 
-.tiktok-username {
-    font-size: 10px;
-    font-weight: 40;
-    color: #ffff88; /* Sesuaikan warna dengan tema Anda */
+#mempelai {
+    padding-top: 0 !important;   /* buang padding atas section */
+    margin-top: 0 !important;    /* buang margin atas */
 }
 
-.tiktok-link:hover .bx.bxl-tiktok {
-    transform: scale(1.1); /* Efek zoom pada ikon saat hover */
+#mempelai .container {
+    padding-top: 0 !important;   /* buang padding atas container */
+    margin-top: 0 !important;
 }
 
-.tiktok-link:hover .tiktok-username {
-    text-decoration: underline; /* Garis bawah pada teks saat hover */
+#mempelai p:first-child {
+    margin-top: 0 !important;    /* pastikan paragraf salam nempel */
 }

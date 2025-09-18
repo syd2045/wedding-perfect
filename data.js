@@ -1,83 +1,62 @@
-// Wedding Invitation Configuration
-const weddingData = {
-    // Basic Information
-    groom: {
-        name: "Rizky",
-        fullName: "Ahmad Rizky Pratama",
-        father: "Bapak Suharto",
-        mother: "Ibu Siti Aminah",
-        photo: "images/cowo.png"
-    },
-    bride: {
-        name: "Dewi", 
-        fullName: "Sari Dewi Lestari",
-        father: "Bapak Wahyu Santoso",
-        mother: "Ibu Nur Hasanah",
-        photo: "images/cewe.png"
-    },
-    
-    // Couple Photo
-    couplePhoto: "images/couple.png",
-    
-    // Opening Text
-    openingText: "Dengan memohon rahmat dan ridho Allah SWT, kami bermaksud menyelenggarakan pernikahan putra-putri kami.",
-    
-    // Event Details
-    akadNikah: {
-        date: "2025-10-15",
-        time: "07:00",
-        location: "Masjid Al-Ikhlas",
-        address: "Jl. Mawar No. 123, Jakarta Selatan"
-    },
-    
-    reception: {
-        date: "2025-10-15", 
-        time: "10:00",
-        location: "Grand Ballroom Hotel Sahid",
-        address: "Jl. Sudirman No. 456, Jakarta Pusat"
-    },
-    
-    // Google Maps Link
-    mapsLink: "https://maps.google.com/?q=Grand+Ballroom+Hotel+Sahid+Jakarta",
-    
-    // Theme Configuration
-    theme: {
-        primaryColor: "#2C5F41", // Dark Green
-        secondaryColor: "#8FBC8F", // Light Green
-        accentColor: "#DAA520", // Golden
-        backgroundColor: "#F8F8FF"
-    },
-    
-    // Font Configuration
-    fonts: {
-        heading: "'Playfair Display', serif",
-        body: "'Source Sans Pro', sans-serif"
-    },
-    
-    // Features Toggle
-    features: {
-        backgroundMusic: true,
-        loveEffects: true,
-        photoGallery: true,
-        countdown: true
-    },
-    
-    // Photo Gallery
-    gallery: [
-        "images/1.png",
-        "images/2.png", 
-        "images/3.png",
-        "images/4.png",
-        "images/5.png",
-        "images/6.png"
-    ],
-    
-    // Islamic Hadith
-    hadith: {
-        text: "Dan di antara tanda-tanda kekuasaan-Nya ialah Dia menciptakan untukmu isteri-isteri dari jenismu sendiri, supaya kamu cenderung dan merasa tenteram kepadanya, dan dijadikan-Nya diantaramu rasa kasih dan sayang.",
-        source: "QS. Ar-Rum: 21"
-    },
-    
-    // Timezone
-    timezone: "Asia/Jakarta"
+// js/data.js
+
+const data = {
+  // PENGATURAN UMUM
+  "enable_music": true, // Ganti ke false untuk menonaktifkan musik
+  "enable_falling_love": true, // Ganti ke false untuk menonaktifkan efek love berjatuhan
+  "enable_gallery": true, // Ganti ke false untuk menyembunyikan galeri
+
+  // DATA MEMPELAI
+  "groom_name": "Aditya",
+  "bride_name": "Seraphina",
+  "groom_full_name": "Aditya Pratama",
+  "bride_full_name": "Seraphina Putri",
+  "groom_father": "Bapak John Doe",
+  "groom_mother": "Ibu Jane Doe",
+  "bride_father": "Bapak Michael Smith",
+  "bride_mother": "Ibu Maria Smith",
+
+  // TEKS UNDANGAN
+  "intro_text": "Tanpa mengurangi rasa hormat, kami mengundang Bapak/Ibu/Saudara/i untuk hadir di acara pernikahan kami.",
+
+  // DETAIL ACARA
+  "wedding_date": "2025-12-20T09:00:00", // Format: YYYY-MM-DDTHH:mm:ss
+  "timezone": "Asia/Jakarta", // Ganti sesuai zona waktu Anda
+  "akad": {
+    "date": "Sabtu, 20 Desember 2025",
+    "time_start": "09:00",
+    "time_end": "10:00",
+    "place": "Masjid Istiqlal, Jakarta"
+  },
+  "resepsi": {
+    "date": "Sabtu, 20 Desember 2025",
+    "time_start": "12:00",
+    "time_end": "15:00",
+    "place": "Gedung Balai Kartini, Jakarta"
+  },
+  "gmaps_link": "https://maps.app.goo.gl/someaddress", // Ganti dengan link Google Maps lokasi Anda
+
+  // GALERI FOTO
+  // Letakkan file foto di folder /images/
+  "gallery_images": [
+    "1.png",
+    "2.png",
+    "3.png",
+    "4.png",
+    "5.png",
+    "6.png"
+  ],
+
+  // KUTIPAN/HADIS
+  "quote": "“Dan di antara tanda-tanda kekuasaan-Nya ialah Dia menciptakan untukmu istri-istri dari jenismu sendiri, supaya kamu cenderung dan merasa tenteram kepadanya, dan dijadikan-Nya di antaramu rasa kasih dan sayang. Sesungguhnya pada yang demikian itu benar-benar terdapat tanda-tanda bagi kaum yang berpikir.”",
+  "quote_source": "QS. Ar-Rum: 21",
+
+  // PENGATURAN TAMPILAN
+  "theme_color": "#8B4513", // Warna tema (contoh: coklat sadel)
+  "font_title": "'Great Vibes', cursive", // Font untuk judul (contoh: Great Vibes dari Google Fonts)8B4513
+  "font_content": "'Poppins', sans-serif", // Font untuk konten (contoh: Poppins dari Google Fonts)
+
+  // FOOTER
+  "made_by": "syd team", // Ganti dengan nama Anda
+  "tiktok_username": "usernameAnda" // Ganti dengan username TikTok Anda
 };

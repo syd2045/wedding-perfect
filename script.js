@@ -1,269 +1,155 @@
-// Wedding Invitation JavaScript
+// js/script.js
 
-class WeddingInvitation {
-    constructor() {
-        this.isInvitationOpened = false;
-        this.isMusicPlaying = false;
-        this.guestName = '';
-        this.countdownInterval = null;
-        this.audioElement = null;
-        
-        this.init();
+document.addEventListener('DOMContentLoaded', function () {
+    // ---- PENGATURAN AWAL & DATA INJECTION ----
+    const root = document.documentElement;
+    const guestNameElement = document.getElementById('guest-name');
+    const openButton = document.getElementById('open-invitation');
+    const mainContent = document.getElementById('main-content');
+    const landingPage = document.getElementById('landing');
+    const audio = document.getElementById('background-music');
+    const bottomNav = document.getElementById('bottom-nav');
+
+    // Mengatur variabel CSS dari data.js
+    root.style.setProperty('--theme-color', data.theme_color);
+    root.style.setProperty('--font-title', data.font_title);
+    root.style.setProperty('--font-content', data.font_content);
+
+    // Mengambil nama tamu dari URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const to = urlParams.get('to');
+    guestNameElement.textContent = to ? to.replace(/_/g, ' ') : 'Bapak/Ibu/Saudara/i';
+    
+    // Mengisi data dari data.js ke HTML
+    document.title = `Undangan Pernikahan ${data.groom_name} & ${data.bride_name}`;
+    document.getElementById('couple-name-landing').textContent = `${data.groom_name} & ${data.bride_name}`;
+    document.getElementById('intro-text-landing').textContent = data.intro_text;
+    document.getElementById('groom-name-main').textContent = data.groom_full_name;
+    document.getElementById('groom-parents').textContent = `Bapak ${data.groom_father} & Ibu ${data.groom_mother}`;
+    document.getElementById('bride-name-main').textContent = data.bride_full_name;
+    document.getElementById('bride-parents').textContent = `Bapak ${data.bride_father} & Ibu ${data.bride_mother}`;
+    document.getElementById('quote-text').textContent = data.quote;
+    document.getElementById('quote-source').textContent = data.quote_source;
+    document.getElementById('akad-date').textContent = data.akad.date;
+    document.getElementById('akad-time').textContent = `Pukul ${data.akad.time_start} - ${data.akad.time_end} WIB`;
+    document.getElementById('akad-place').textContent = data.akad.place;
+    document.getElementById('resepsi-date').textContent = data.resepsi.date;
+    document.getElementById('resepsi-time').textContent = `Pukul ${data.resepsi.time_start} - ${data.resepsi.time_end} WIB`;
+    document.getElementById('resepsi-place').textContent = data.resepsi.place;
+    document.getElementById('gmaps-button').href = data.gmaps_link;
+    document.getElementById('made-by').textContent = data.made_by;
+    document.getElementById('tiktok-username').textContent = `@${data.tiktok_username}`;
+    document.getElementById('tiktok-link').href = `https://tiktok.com/@${data.tiktok_username}`;
+
+    // ---- FUNGSI UTAMA ----
+
+    // Countdown Timer
+    function startCountdown() {
+        const weddingDate = new Date(data.wedding_date).getTime();
+        const countdownInterval = setInterval(() => {
+            const now = new Date().getTime();
+            const distance = weddingDate - now;
+            if (distance < 0) {
+                clearInterval(countdownInterval);
+                document.getElementById('countdown').innerHTML = "<h3>Acara Telah Selesai</h3>";
+                return;
+            }
+            document.getElementById('days').textContent = Math.floor(distance / (1000 * 60 * 60 * 24)).toString().padStart(2, '0');
+            document.getElementById('hours').textContent = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)).toString().padStart(2, '0');
+            document.getElementById('minutes').textContent = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)).toString().padStart(2, '0');
+            document.getElementById('seconds').textContent = Math.floor((distance % (1000 * 60)) / 1000).toString().padStart(2, '0');
+        }, 1000);
     }
 
-    init() {
-        // Wait for DOM to be loaded
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', () => this.setup());
-        } else {
-            this.setup();
-        }
-    }
-
-    setup() {
-        this.extractGuestName();
-        this.populateContent();
-        this.setupEventListeners();
-        this.startCountdown();
-        this.hideLoading();
-    }
-
-    extractGuestName() {
-        const urlParams = new URLSearchParams(window.location.search);
-        const to = urlParams.get('to');
-        if (to) {
-            this.guestName = decodeURIComponent(to);
-        }
-    }
-
-    populateContent() {
-        // Landing page content
-        document.getElementById('couplePhoto').src = weddingData.couplePhoto;
-        document.getElementById('coupleNames').textContent = `${weddingData.groom.name} & ${weddingData.bride.name}`;
-        document.getElementById('openingText').textContent = weddingData.openingText;
-
-        // Show guest card if guest name exists
-        if (this.guestName) {
-            document.getElementById('guestName').textContent = this.guestName;
-            document.getElementById('guestCard').classList.remove('hidden');
-        }
-
-        // Hero section
-        document.getElementById('heroNames').textContent = `${weddingData.groom.name} & ${weddingData.bride.name}`;
-        document.getElementById('heroDate').textContent = this.formatDate(weddingData.akadNikah.date);
-
-        // Couple details
-        document.getElementById('groomPhoto').src = weddingData.groom.photo;
-        document.getElementById('groomFullName').textContent = weddingData.groom.fullName;
-        document.getElementById('groomParents').textContent = `Putra dari ${weddingData.groom.father} & ${weddingData.groom.mother}`;
-
-        document.getElementById('bridePhoto').src = weddingData.bride.photo;
-        document.getElementById('brideFullName').textContent = weddingData.bride.fullName;
-        document.getElementById('brideParents').textContent = `Putri dari ${weddingData.bride.father} & ${weddingData.bride.mother}`;
-
-        // Event details
-        document.getElementById('akadDate').textContent = this.formatDate(weddingData.akadNikah.date);
-        document.getElementById('akadTime').textContent = `${weddingData.akadNikah.time} WIB`;
-        document.getElementById('akadLocation').textContent = weddingData.akadNikah.location;
-        document.getElementById('akadAddress').textContent = weddingData.akadNikah.address;
-
-        document.getElementById('receptionDate').textContent = this.formatDate(weddingData.reception.date);
-        document.getElementById('receptionTime').textContent = `${weddingData.reception.time} WIB`;
-        document.getElementById('receptionLocation').textContent = weddingData.reception.location;
-        document.getElementById('receptionAddress').textContent = weddingData.reception.address;
-
-        // Gallery
-        if (weddingData.features.photoGallery) {
-            this.populateGallery();
-        } else {
-            document.getElementById('gallerySection').classList.add('hidden');
-        }
-
-        // Countdown
-        if (!weddingData.features.countdown) {
-            document.getElementById('countdownSection').classList.add('hidden');
-        }
-
-        // Islamic quote
-        document.getElementById('hadithText').textContent = `"${weddingData.hadith.text}"`;
-        document.getElementById('hadithSource').textContent = weddingData.hadith.source;
-
-        // Footer
-        document.getElementById('footerNames').textContent = `${weddingData.groom.name} & ${weddingData.bride.name}`;
-    }
-
-    populateGallery() {
-        const gallery = document.getElementById('photoGallery');
-        gallery.innerHTML = '';
-
-        weddingData.gallery.forEach((photo, index) => {
-            const galleryItem = document.createElement('div');
-            galleryItem.className = 'gallery-item';
-            galleryItem.innerHTML = `
-                <img src="${photo}" alt="Gallery ${index + 1}" loading="lazy">
-            `;
-            gallery.appendChild(galleryItem);
-        });
-    }
-
-    setupEventListeners() {
-        // Open invitation button
-        document.getElementById('openInvitationBtn').addEventListener('click', () => {
-            this.openInvitation();
-        });
-
-        // Music toggle
-        document.getElementById('musicToggle').addEventListener('click', () => {
-            this.toggleMusic();
-        });
-
-        // Maps button
-        document.getElementById('mapsButton').addEventListener('click', () => {
-            window.open(weddingData.mapsLink, '_blank');
-        });
-
-        // Audio element
-        this.audioElement = document.getElementById('backgroundMusic');
-    }
-
-    openInvitation() {
-        this.isInvitationOpened = true;
-        
-        // Hide landing page and show main content
-        document.getElementById('landingPage').classList.add('hidden');
-        document.getElementById('mainContent').classList.remove('hidden');
-
-        // Show music control if enabled
-        if (weddingData.features.backgroundMusic) {
-            document.getElementById('musicControl').classList.remove('hidden');
-            this.playMusic();
-        }
-
-        // Start falling hearts effect if enabled
-        if (weddingData.features.loveEffects) {
-            this.startFallingHearts();
-        }
-
-        // Smooth scroll to main content
-        setTimeout(() => {
-            document.getElementById('mainContent').scrollIntoView({ 
-                behavior: 'smooth',
-                block: 'start'
-            });
+    // Efek love berjatuhan
+    function createFallingLove() {
+        if (!data.enable_falling_love) return;
+        setInterval(() => {
+            const heart = document.createElement('div');
+            heart.classList.add('love-heart');
+            heart.innerHTML = '❤';
+            heart.style.left = `${Math.random() * 100}vw`;
+            heart.style.animationDuration = `${Math.random() * 5 + 5}s`;
+            document.body.appendChild(heart);
+            setTimeout(() => heart.remove(), 10000);
         }, 300);
     }
 
-    playMusic() {
-        if (this.audioElement) {
-            this.audioElement.play().then(() => {
-                this.isMusicPlaying = true;
-                this.updateMusicIcon();
-            }).catch(error => {
-                console.log('Auto-play prevented:', error);
-            });
+    // Galeri Foto
+    function setupGallery() {
+        const galleryNavItem = document.getElementById('gallery-nav-item');
+        const gallerySection = document.getElementById('gallery-section');
+        if (!data.enable_gallery) {
+            gallerySection.style.display = 'none';
+            galleryNavItem.style.display = 'none';
+            return;
         }
+        gallerySection.style.display = 'block';
+        const galleryContainer = document.getElementById('gallery-container');
+        data.gallery_images.forEach(image => {
+            const col = document.createElement('div');
+            col.className = 'col-md-4 col-6';
+            col.innerHTML = `<img src="images/${image}" alt="Foto Galeri" class="img-fluid">`;
+            galleryContainer.appendChild(col);
+        });
     }
-
-    toggleMusic() {
-        if (!this.audioElement) return;
-
-        if (this.isMusicPlaying) {
-            this.audioElement.pause();
-            this.isMusicPlaying = false;
-        } else {
-            this.audioElement.play().then(() => {
-                this.isMusicPlaying = true;
-            }).catch(error => {
-                console.log('Music play failed:', error);
-            });
-        }
-        this.updateMusicIcon();
-    }
-
-    updateMusicIcon() {
-        const icon = document.getElementById('musicIcon');
-        icon.textContent = this.isMusicPlaying ? '🎵' : '🔇';
-    }
-
-    startFallingHearts() {
-        const container = document.getElementById('fallingHearts');
-        container.classList.remove('hidden');
-
-        const createHeart = () => {
-            const heart = document.createElement('div');
-            heart.className = 'falling-heart';
-            heart.textContent = '💕';
-            heart.style.left = Math.random() * 100 + '%';
-            heart.style.fontSize = (16 + Math.random() * 16) + 'px';
-            heart.style.animationDuration = (3 + Math.random() * 2) + 's';
-            heart.style.animationDelay = Math.random() * 3 + 's';
-            
-            container.appendChild(heart);
-
-            // Remove heart after animation
-            setTimeout(() => {
-                if (heart.parentNode) {
-                    heart.parentNode.removeChild(heart);
+    
+    // Efek scroll reveal
+    function setupScrollReveal() {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
                 }
-            }, 6000);
-        };
-
-        // Create hearts periodically
-        setInterval(createHeart, 300);
+            });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
     }
 
-    startCountdown() {
-        if (!weddingData.features.countdown) return;
-
-        const weddingDate = new Date(`${weddingData.akadNikah.date}T${weddingData.akadNikah.time}:00`);
-        
-        const updateCountdown = () => {
-            const now = new Date().getTime();
-            const distance = weddingDate.getTime() - now;
-            
-            if (distance > 0) {
-                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-                
-                document.getElementById('countDays').textContent = days.toString().padStart(2, '0');
-                document.getElementById('countHours').textContent = hours.toString().padStart(2, '0');
-                document.getElementById('countMinutes').textContent = minutes.toString().padStart(2, '0');
-                document.getElementById('countSeconds').textContent = seconds.toString().padStart(2, '0');
-            } else {
-                // Wedding day has arrived
-                document.getElementById('countDays').textContent = '00';
-                document.getElementById('countHours').textContent = '00';
-                document.getElementById('countMinutes').textContent = '00';
-                document.getElementById('countSeconds').textContent = '00';
-            }
-        };
-
-        // Initial call
-        updateCountdown();
-        
-        // Update every second
-        this.countdownInterval = setInterval(updateCountdown, 1000);
-    }
-
-    formatDate(dateStr) {
-        const date = new Date(dateStr);
-        const options = { 
-            weekday: 'long', 
-            year: 'numeric', 
-            month: 'long', 
-            day: 'numeric' 
-        };
-        return date.toLocaleDateString('id-ID', options);
-    }
-
-    hideLoading() {
+    // ---- EVENT LISTENER ----
+    openButton.addEventListener('click', () => {
+        landingPage.style.transform = 'scale(1.2)';
+        landingPage.style.opacity = '0';
         setTimeout(() => {
-            document.getElementById('loading').classList.add('hidden');
+            landingPage.style.display = 'none';
+            mainContent.style.display = 'block';
+            document.body.style.overflowY = 'auto';
+            bottomNav.classList.add('show');
+            document.getElementById('mempelai').scrollIntoView({ behavior: 'smooth' });
+            if (data.enable_music) audio.play();
+            createFallingLove();
         }, 1500);
-    }
-}
+    });
 
-// Initialize the wedding invitation
-const invitation = new WeddingInvitation();
+    // ---- FUNGSI UNTUK NAVIGASI BAWAH (SCROLLSPY) ----
+    function setupBottomNav() {
+        const sections = document.querySelectorAll('main section[id]');
+        const navLinks = document.querySelectorAll('.bottom-nav .nav-item');
+        const observerOptions = { root: null, rootMargin: '0px', threshold: 0.5 };
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const id = entry.target.getAttribute('id');
+                    navLinks.forEach(link => link.classList.remove('active'));
+                    const activeLink = document.querySelector(`.bottom-nav a[href="#${id}"]`);
+                    if (activeLink) activeLink.classList.add('active');
+                }
+            });
+        }, observerOptions);
+        sections.forEach(section => observer.observe(section));
+        navLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                document.querySelector(targetId).scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+    }
+
+    // ---- INISIALISASI ----
+    startCountdown();
+    setupGallery();
+    setupScrollReveal();
+    setupBottomNav();
+    document.body.style.overflow = 'hidden';
+});
